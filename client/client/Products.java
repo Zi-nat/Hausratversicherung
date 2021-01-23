@@ -3,6 +3,7 @@ package client;
 import java.text.DecimalFormat;
 
 
+
 public enum Products {
 
 	COMPACT(650), OPTIMAL(700);

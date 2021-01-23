@@ -30,12 +30,12 @@ public class App {
 			String areaOptimalInput;
 
 			do {
-				System.out.println("welche Produkt wählen Sie: kompakt oder optimal?");
+				System.out.println("Dein Produkttype: Kompakt oder Optimal?");
 				echoStringFromConsole = productInputScanner.nextLine();
 
 				if (isValid(echoStringFromConsole)) {
 
-					switch (echoStringFromConsole) {
+					switch (echoStringFromConsole.toLowerCase()) {
 					case "kompakt":
 						System.out.println("Deine Wohnfläsche in Quadratmeter: ");
 						Scanner inputKopmactScanner = new Scanner(System.in);
@@ -55,17 +55,23 @@ public class App {
 						echoToServer.println(areaOptimalInput);
 						System.out.println(echos.readLine());
 						break;
+					case "exit":
+						System.out.println("Auf Wiedersehen :)");
+						echoToServer.println(echoStringFromConsole);
+						//System.out.println(echos.readLine());
+						break;
 
 					default:
-						System.out.println("Ungültige Eingabe");
+						System.out.println("Ungültige Eingabe, gib bitte dein Produkt ein");
 
 						break;
 					}
 				} else {
-					System.out.println("Ungültige Eingabe, bitte gebe nur Kleinbuchstaben ein");
+					System.out.println("Ungültige Eingabe");
 				}
 
-			} while (!echoToServer.equals("exit"));
+			} while (!echoStringFromConsole.equals("exit"));
+
 			// productInputScanner.close();
 		} catch (IOException error) {
 			// handle specific exception
@@ -74,7 +80,7 @@ public class App {
 
 	}
 
-	private static boolean isValid(String inputString) {
+	public static boolean isValid(String inputString) {
 
 		Pattern grouPattern = Pattern.compile("^.[A-Za-z]+");
 		Matcher prouMatcher = grouPattern.matcher(inputString);

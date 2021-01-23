@@ -23,7 +23,7 @@ public class Main {
 				if (echoStringFromClient.equals("exit")) {
 					break;
 				}
-				output.println("Hier ist es dein Persönlisches Angebot in Euro \u20AC" +  echoStringFromClient);
+				output.println("Hier ist es dein Persönlisches Angebot, Versicherungssumme: " +  echoStringFromClient+ "\u20AC");
 			}
 
 		} catch (IOException error) {
