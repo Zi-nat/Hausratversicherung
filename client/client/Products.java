@@ -1,0 +1,25 @@
+package client;
+
+import java.text.DecimalFormat;
+
+
+public enum Products {
+
+	COMPACT(650), OPTIMAL(700);
+
+	private int price;
+
+	private Products(int price) {
+		this.price = price;
+	}
+	
+	public String insurance(double area) {
+        double sum = 0; // Sum initialised
+		sum = area * price;
+		DecimalFormat roundedSum= new DecimalFormat(".00");
+		String result = roundedSum.format(sum);
+		return result;
+
+	}
+
+}
