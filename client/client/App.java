@@ -1,11 +1,4 @@
 package client;
-//Aufgabe: Berechnung Versicherungssumme Hausratversicherung
-
-//Vorgaben: 2 Versicherungsprodukte mit unterschiedlichem Preis pro m²		
-//* Kompakt: 650€ pro m²		
-//* Optimal: 700€ pro m²
-//Eingabe>> Produkt: "Kompakt" oder "Optimal" Und Wohnfläche in m²
-//Ausgabe>> Versicherungssumme
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,7 +12,8 @@ import java.util.regex.Pattern;
 public class App {
 
 	public static void main(String[] args) {
-
+		// The address of the host and port number need to be specified. In case local
+		// host doesn't worked "127.0.0.1" can be used as a local address
 		try (Socket socket = new Socket("localhost", 5000)) {
 			BufferedReader echos = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			PrintWriter echoToServer = new PrintWriter(socket.getOutputStream(), true);
@@ -28,20 +22,24 @@ public class App {
 			String echoStringFromConsole;
 			String areaCompactInput;
 			String areaOptimalInput;
-
+			// do-while gives the client more chance to see also the other "Angebot"
 			do {
 				System.out.println("Dein Produkttype: Kompakt oder Optimal?");
 				echoStringFromConsole = productInputScanner.nextLine();
-
+				// It asks the user to enter the string and then validate the input via
+				// isValid-function
 				if (isValid(echoStringFromConsole)) {
-
+					// We have access to each product via switch-case
 					switch (echoStringFromConsole.toLowerCase()) {
 					case "kompakt":
 						System.out.println("Deine Wohnfläsche in Quadratmeter: ");
 						Scanner inputKopmactScanner = new Scanner(System.in);
 						echoStringFromConsole = inputKopmactScanner.nextLine();
 						double areaCompact = Double.parseDouble(echoStringFromConsole);
-						areaCompactInput = Products.COMPACT.insurance(areaCompact);//
+						// Call the insurance method from client.Products to receive the
+						// "Versicherungssumme"
+						areaCompactInput = Products.COMPACT.insurance(areaCompact);
+						// and then send it backs to the server
 						echoToServer.println(areaCompactInput);
 						System.out.println(echos.readLine());
 						break;
@@ -58,7 +56,6 @@ public class App {
 					case "exit":
 						System.out.println("Auf Wiedersehen :)");
 						echoToServer.println(echoStringFromConsole);
-						//System.out.println(echos.readLine());
 						break;
 
 					default:
@@ -67,25 +64,27 @@ public class App {
 						break;
 					}
 				} else {
+					// If the entry is not valid, the user will be informed
 					System.out.println("Ungültige Eingabe");
 				}
 
 			} while (!echoStringFromConsole.equals("exit"));
 
-			// productInputScanner.close();
+			productInputScanner.close();
 		} catch (IOException error) {
-			// handle specific exception
+			// Handle specific exception
 			System.out.println("client Error:" + error.getMessage());
 		}
 
 	}
 
+    //isValid-function will control the input, that comes from user and 
+	//checks to ensure that it is just a string of letters e.g not a number
 	public static boolean isValid(String inputString) {
-
-		Pattern grouPattern = Pattern.compile("^.[A-Za-z]+");
-		Matcher prouMatcher = grouPattern.matcher(inputString);
-		prouMatcher.reset();
-		return prouMatcher.matches();
+		Pattern groupPattern = Pattern.compile("^.[A-Za-z]+");
+		Matcher groupMatcher = groupPattern.matcher(inputString);
+		groupMatcher.reset();
+		return groupMatcher.matches();
 	}
 
 }

@@ -3,7 +3,6 @@ package client;
 import java.text.DecimalFormat;
 
 
-
 public enum Products {
 
 	COMPACT(650), OPTIMAL(700);
@@ -14,6 +13,8 @@ public enum Products {
 		this.price = price;
 	}
 	
+	//insurance-method returns the sum of final product 
+	//depends on the building-area and products that have been chosen  
 	public String insurance(double area) {
         double sum = 0; // Sum initialised
 		sum = area * price;
